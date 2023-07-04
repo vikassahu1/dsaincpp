@@ -1,7 +1,18 @@
 #include <iostream>
+#include <string>
+using namespace std;
+
+union employee
+{
+    int eId;
+    char favChar;
+    int salary;
+};
+
 int main(){
-    // Array to pointer
-    //  The name of an array itself
-    //  is the address of the first index of an array.  
+    union employee Vikas;
+    Vikas.eId = 22;
+    Vikas.favChar = 'd';
+    Vikas.salary = 8000;
     return 0;
 }
