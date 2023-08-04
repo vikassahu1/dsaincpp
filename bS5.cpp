@@ -1,4 +1,4 @@
-// To search an element in sorted rotated array 
+// To search an element in sorted rotated array . 
 
 #include <iostream>
 using namespace std;
@@ -48,6 +48,7 @@ int getElement(int arr[],int size,int element){
         return binarySearch(arr,s,piv-1,element);
     }
     
+
 int main()
 {
     int arr[12] = {10,23,45,56,78,80,1,2,3,4,6,7};

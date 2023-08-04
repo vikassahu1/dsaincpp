@@ -1,6 +1,6 @@
 // Agressive Cows 
 // We have to place k number of cows in the stalls(element of the array represent sthe position of the stalls)
-// So that the minimum ditance between two cows is minimum.
+// So that the minimum ditance between two cows is maximum.
 
 #include <iostream>
 #include <bits/stdc++.h>

@@ -1,4 +1,4 @@
-// To find  element from a sorted array by bs sum of lh elements equal to sum of right hand elements.  
+// To find element from a sorted array by bs sum of lh elements equal to sum of right hand elements.  
 
 #include <iostream>
 using namespace std;

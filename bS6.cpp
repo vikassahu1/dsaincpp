@@ -27,8 +27,6 @@ long long int Sqrt(int num){
         }
         mid = s+(e-s)/2;
     }
-    
-    
     return ans;
 }
 
