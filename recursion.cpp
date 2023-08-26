@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 
@@ -55,6 +56,70 @@ bool binarySearch(int *arr,int s,int e,int k){
         return binarySearch(arr,s,mid-1,k);
     }
 }
+
+// Phone keypad question
+
+void solve(string digits,string output,int index,vector<string>& ans,string mapping[]){
+        //Base Case
+        if(index>=digits.length()){
+            ans.push_back(output);
+            return;
+        }
+
+        int number = digits[index]-'0';
+        string value = mapping[number];
+
+        for(int i=0;i<value.length();i++){
+            output.push_back(value[i]);
+            solve(digits,output,index+1,ans,mapping);
+            output.pop_back();
+        }
+}
+    
+vector<string> letterCombinations(string digits){
+        vector<string> ans;
+
+        if(digits.length()==0)
+            return ans;
+
+        string output = "";
+        int index = 0;
+
+        string mapping[10] = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+
+        solve(digits,output,index,ans,mapping);
+        return ans;
+    }
+
+
+// Permutations of a string 
+
+void solving(vector<int> nums,int index,vector<vector<int>>& ans){
+
+    // Base case 
+    if(index>=nums.size()){
+        ans.push_back(nums);
+        return ;
+    }
+    
+    for (int i = index; i < nums.size(); i++)
+    {
+        swap(nums[index],nums[i]);
+        solving(nums,index+1,ans);
+
+        swap(nums[index],nums[i]);
+    }
+    
+}
+
+vector<vector<int>> permutations(vector<int> &nums){
+    vector<vector<int>> ans;
+    int index = 0;
+    solving(nums,index,ans);
+    return ans;
+}
+
+
 
 int main(){
     // int n;

@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-// binary search in 2d array 
+// binary search in 2d sorted array (linearly) .
 void searchMatrix(vector<vector <int>> &matrix,int target){
     int row = matrix.size();
     int col = matrix[0].size();
@@ -49,7 +49,6 @@ void binaryUnosorted(vector<vector <int>> &matrix,int target){
             row++;
         }
         else{ 
-
             col--;
         }
     }
