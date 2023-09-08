@@ -145,7 +145,8 @@ void deleteNode(int position,Node* &head,Node* &tail){
     }
 
     // deleting at any other or last position .
-    else{
+    else
+    {
     Node* curr = head;
     Node* prev = NULL;
     
@@ -166,8 +167,7 @@ void deleteNode(int position,Node* &head,Node* &tail){
     prev -> next = curr -> next;
     curr ->next = NULL;
     delete curr;
-}
-
+    }
 }
 
 int main(){

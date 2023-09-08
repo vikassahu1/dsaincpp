@@ -1,3 +1,2 @@
-int arr1[10] = {1,3,5,0,0,0,0,0,0,0};
-    int arr2[7] = {2,4,6,11,22,33,65};
-    merge(arr1,10,arr2,7);
+removeDuplicates(head);
+    // print(head);

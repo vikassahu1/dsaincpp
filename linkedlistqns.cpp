@@ -1,6 +1,6 @@
 #include <iostream>
-#include <bits/stdc++.h>
 #include <map>
+#include <vector>
 
 using namespace std;
 
@@ -15,13 +15,16 @@ class Node{
             this -> next = NULL;
         }
 
-        ~Node(){
-            if (this->next!=NULL){
-                delete next;
-                next = NULL;
-            }
-        }
+        // ~Node(){
+        //     if (this->next != NULL)
+        //     {
+        //         delete next;
+        //         this -> next = NULL;
+        //     }
+        // }
 };
+
+
 
 Node* reverse1(Node* head){
 
@@ -58,7 +61,7 @@ void rev(Node* &head,Node* &curr,Node* &prev){
 void reverseRecursion(Node* &head){
     Node * curr = head;
     Node * prev = NULL;
-    rev(head,curr,prev);
+    rev(head,curr,prev); 
 }
 
 
@@ -189,6 +192,7 @@ Node* kReverse(Node* head,int k){
     return prev;
 }
 
+
 // To detect loop in linked list 
 
 // Floyd cycle detecction 
@@ -207,6 +211,7 @@ bool detectLoop(Node* head)
         }
         return 0;
     }
+
 
 bool detectLoop2(Node* head){
     if(head==NULL)
@@ -227,6 +232,7 @@ bool detectLoop2(Node* head){
     }
     return 0;
 }
+
 
 // Starting node of any loop present in the linked list using floyd cycle detection .
 
@@ -260,6 +266,7 @@ Node* startingNode(Node* head){
     return slow;
 }
 
+
 // Removing any loop in the linked list using floyd cycle detection. 
 
 void removeLoop(Node* head){
@@ -275,44 +282,205 @@ void removeLoop(Node* head){
     temp->next = NULL;
 }
 
+
 // Removing duplicate elements from a sorted linked list 
 
-
 void removeDuplicates(Node *&head){
-
-    
     Node *curr = head;
-    while (curr!=NULL)
+    
+    while (curr)
     {
-        if ((curr->next!=NULL) && curr->data == curr->next->data)
+        if(curr->next && curr->data == curr->next->data)
         {
-            Node* nex = curr->next->next;
             Node *toDelete = curr->next;
+            curr->next = curr->next->next;
             delete toDelete;
-            curr->next = nex;
         }
-        else{
-            curr = curr->next;
-        }
+        else
+        curr = curr->next;
     }
 }
 
 // Removing duplicate elements from an unsorted sorted linked list . 
-void removeDuplicates2(Node* head){
+
+// Approach 1: Using map. 
+void removeDuplicates2(Node* &head){
+    map<int,bool> duplicate;
+    Node* temp = head;
+    Node* prev = NULL;
+    while (temp->next)
+    {
+        if (duplicate[temp->data] == true)
+        {
+            prev->next = temp->next;
+            Node* toDelete = temp;
+            temp = temp->next; 
+            delete toDelete;
+        }
+        else{
+        duplicate[temp->data] = true;
+        prev = temp;
+        temp = temp->next;
+        }
+    }
+}
+
+
+
+//  Merging two sorted linked list
+Node * solve(Node* &first,Node* &second){
+
+    // if only on element is present in first list.
+    if (first->next==NULL)
+    {
+        first->next = second;
+        return first;
+    }
+    
+
+
+    Node * curr1 = first;
+    Node * next1 = first -> next;
+    Node * curr2 = second;
+    Node * next2 = second -> next;
+
+    while (next1!=NULL && curr2!=NULL)
+    {
+        if ((curr2->data >= curr1->data) && (curr2->data <= next1->data))
+        {
+            curr1->next=curr2;
+            next2 = curr2->next; 
+            curr2->next = next1;
+
+        curr1 = curr2;
+        curr2 = next2;
+        }
+        else{
+            // curr 1 and next 1 ko aage badhana padega 
+            curr1 = next1;
+            next1 = next1->next;
+
+            if (next1==NULL)
+            {
+                curr1->next = curr2;
+                return first;
+            }
+            
+        }
+    }
     
 }
+
+
+Node* sortTwoList(Node* first,Node* second){
+    if(first ==NULL)
+        return second;
+    if(second==NULL)
+        return first;
+    
+    if(first->data <= second->data)
+        solve(first,second);
+    else
+        solve(second,first);
+}
+
+// To check a linked list is palindrome or not
+
+// Appraoch1: Using array. 
+bool checkPlaindrome(Node* head){
+    Node* temp = head;
+    vector<int> a;
+    while (temp)
+    {
+        a.push_back(temp->data);
+        temp=temp->next;
+    }
+    int size = a.size();
+    for (int i = 0,j=size-1; i < size,j>=0; i++,j--)
+    {
+        if (a[i]!=a[j])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Approach2: With space complexity O[1] (optimal solution)
+Node *getMid(Node* head){
+    Node *slow = head;
+    Node *fast = head;
+
+    while (fast && fast->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+
+Node * reverseit(Node* head){
+    Node* curr = head;
+    Node* prev = NULL;
+    Node* next = NULL;
+
+    while (curr)
+    {
+        next = curr->next;
+        curr->next=prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+
+// TC O[N], SC O[1]
+bool checkPlaindrome2(Node* head){
+    if (head->next == NULL)
+        return true;
+    
+    // Step1: to find middle element.
+    Node* middle = getMid(head);
+
+    // Step2: Reverse the list after middle. 
+    Node *temp = middle->next;
+    middle->next = reverseit(temp);
+
+    // Step3: Ab dono half ko compare karlo.
+    Node* head1 = head;
+    Node* head2 = middle->next;
+    while (head2!=NULL)
+    {
+        if (head1->data!=head2->data)
+        {
+            return false;
+        }
+        head1 = head1->next;
+        head2 = head2->next;
+    }
+
+    // Fir se reverse karna h (Optional)
+    temp = middle->next;
+    middle->next = reverseit(temp);
+    return true;
+}
+
+
+
+// Adding two numbers using linked list 
+
 
 
 int main(){
     Node* node1 = new Node(5); 
     Node* head = node1;
+    insertAtHead(head,1);
+    insertAtHead(head,1);
     insertAtHead(head,5);
-    insertAtHead(head,4);
-    insertAtHead(head,4);
-    insertAtHead(head,4);
-    insertAtHead(head,4);
-    insertAtHead(head,4);
-    insertAtHead(head,4);
+    // insertAtHead(head,5);
+    // insertAtHead(head,9);
+    // insertAtHead(head,2);
+    // insertAtHead(head,1);
     // insertAtHead(head,7);
     print(head);
     // Node * head2 = reverseRecursion2(head);
@@ -327,7 +495,8 @@ int main(){
     // cout<<detectLoop2(head)<<endl;
     // cout<<detectLoop(head)<<endl;
 
-    removeDuplicates(head);
-    print(head);
+    // removeDuplicates(head);
+    // print(head);
+    cout<<checkPlaindrome(head)<<endl;
     return 0;
 }
