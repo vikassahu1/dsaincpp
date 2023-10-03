@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
@@ -255,6 +256,7 @@ Node* startingNode(Node* head){
             break;
         }
     }
+    // slow = head krke loop chala deni h loop ke starting element par pahucha dega. 
     slow = head;
 
     while (slow!=temp)
@@ -346,6 +348,7 @@ Node * solve(Node* &first,Node* &second){
 
     while (next1!=NULL && curr2!=NULL)
     {
+        // agar beech m aa raha h to insert karna h 
         if ((curr2->data >= curr1->data) && (curr2->data <= next1->data))
         {
             curr1->next=curr2;
@@ -468,6 +471,148 @@ bool checkPlaindrome2(Node* head){
 
 
 // Adding two numbers using linked list 
+// Reverse karke add kar dena h fir wapas reverse kar dena h.
+// ek carry bhi rakhna h jo update hoga.
+
+
+
+
+// To clone a linked list with an additional random pointer
+void inserAtTail(Node *&head, Node *&tail, int data)
+{
+    Node *temp = new Node(data);
+    if (head == NULL)
+    {
+        head = temp;
+        tail = temp;
+    }
+    else
+    {
+        tail->next = temp;
+        tail = temp;
+    }
+}
+// First execute function 
+Node *copyList(Node *head)
+{
+    // S1: Create a clone list
+    Node *cloneHead = NULL;
+    Node *cloneTail = NULL;
+
+    Node *temp = head;
+
+    while (temp)
+    {
+        inserAtTail(cloneHead, cloneTail, temp->data);
+        temp = temp->next;
+    }
+
+    // To get the random mapping in the clone 
+    // S2: Create a map
+    unordered_map<Node *, Node *> oldToNew;
+    Node *originalNode = head;
+    Node *cloneNode = cloneHead;
+
+    while (originalNode)
+    {
+        oldToNew[originalNode] = cloneNode;
+        originalNode = originalNode->next;
+        cloneNode = cloneNode->next;
+    }
+    
+    // S3: To set the random linked list. 
+    originalNode = head;
+    cloneNode = cloneHead;
+
+    while(originalNode)
+    {
+        // cloneNode->arb = oldToNew[originalNode->arb];
+        originalNode = originalNode->next;
+        cloneNode = cloneNode->next;
+    }
+
+    return cloneHead;
+}
+// Note: Without map ke bhi ho sakta h pointers ke saath khel ke.
+
+
+
+
+
+// Merge sort of linked list TC O[NlogN] SC O[logN]
+Node *  getMid(Node* head){
+    Node* slow = head;
+    Node* fast = head->next;
+
+    while(fast && fast->next){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+
+Node * merge(Node* &left,Node* &right){
+    if(left==NULL)
+        return right;
+
+    if(right==NULL)
+        return left;
+    
+    // Temporary Node bana k usme -1 store kar dia 
+    Node *ans = new Node(-1);
+    Node *temp = ans;
+
+    // ans ke aage sab sort krkr laga denge 
+    while(left && right){
+        if(left->data<right->data){
+            temp ->next= left;
+            temp = left;
+            left = left->next;
+        }
+        else{
+            temp ->next= right;
+            temp = right;
+            right = right->next;
+        }
+    }
+    while(left){
+        temp ->next= left;
+        temp = left;
+        left = left->next;
+    }
+    while(right){
+        temp ->next= right;
+        temp = right;
+        right = right->next; 
+    }
+    // ans->next karne se wo -1 wali value consider nhi hogi 
+    ans = ans->next;
+
+    return ans;
+}
+
+Node* mergeSort(Node *head) {
+    
+    // base case 
+    if(head==NULL || head->next==NULL)
+        return head;
+
+    // s1: mid nikalna h 
+    Node * mid = getMid(head);
+    Node *left = head;
+    // break linked list into two halves 
+    Node * right = mid->next;
+    mid->next = NULL;
+
+    // recursive call se left and right part ko sort karna h 
+    left = mergeSort(left);
+    right = mergeSort(right);
+
+    // Merge kar dena h 
+    Node * result = merge(left,right);
+
+    return result;
+}
 
 
 
