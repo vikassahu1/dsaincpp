@@ -617,6 +617,8 @@ using namespace std;
 // int kthAncestor(Node *root, int k, int node)
 // {
 //     Node* ans = solve(root, k, node);
+
+//     Node ka koi kth ancestor nahi hoga 
 //     if(ans == NULL || ans->data == node)
 //         return -1;
 //     else
@@ -686,6 +688,181 @@ using namespace std;
 //         solve(root, k, count, path);
 //         return count;
 //     }
+
+
+
+
+
+// Q17: To make a tree form inorder and preorder.  (VERY IMPORTANT)
+// N = 4
+// inorder[] = {1 6 8 7}
+// preorder[] = {1 6 7 8}
+// Output: 8 7 6 1 (Postorder)
+
+//     Node* buildUtil(int in[], int pre[], int s, int e, int &preIndex) {
+//     if (s > e)
+//         return NULL;
+
+//     Node* root = new Node(pre[preIndex++]);
+//     int ind;
+//     for (int i = s; i <= e; i++) {
+//         if (in[i] == root->data) {
+//             ind = i;
+//             break;
+//         }
+//     }
+//     root->left = buildUtil(in, pre, s, ind - 1, preIndex);
+//     root->right = buildUtil(in, pre, ind + 1, e, preIndex);
+
+//     return root;
+// }
+
+// // Function to build the binary tree using inorder and preorder arrays
+// Node* buildTree(int inorder[], int preorder[], int n) {
+//     int preIndex = 0; // Initialize preIndex to the first index of preorder
+
+//     // YAHA START AND END INORDER KA DENA HOTA H 
+//     return buildUtil(inorder, preorder, 0, n - 1, preIndex);
+// }
+
+
+
+
+
+
+
+// Q18: To make a tree form inorder and postorder 
+// static int i;
+
+// Node* preorder(int in[],int post[],int s,int e){
+//     if(s>e)
+//         return NULL;
+//     Node* root = new Node(post[i--]);
+//     int ind;
+//     for(int i = s;i<=e;i++){
+//         if(in[i]==root->data){
+//             ind = i;
+//             break;
+//         }
+//     }
+//     root->right = preorder(in,post,ind+1,e);
+//     root->left = preorder(in,post,s,ind-1);
+
+//     return root;
+// }
+
+// Node *buildTree(int inorder[], int post[], int n)
+//     {
+//         i=n-1;
+//         return preorder(inorder,post,0,n-1);
+//     }
+
+
+// <-----------------------------------------------Q19. Burning Tree -  tc,sc o[n] ------------------------------------------------------->
+// Node* createParentMap(Node* root,int target,map<Node*,Node*> &parentmap){
+//         Node* res = NULL;
+//         queue<Node*> q;
+//         q.push(root);
+//         parentmap[root] = NULL;
+//         while(!q.empty()){
+//             Node* front = q.front();
+//             q.pop();
+
+//             if(front->data == target)
+//                 res = front;
+
+//             if(front->left){
+//                 parentmap[front->left] = front;
+//                 q.push(front->left);
+//             }
+
+//             if(front->right){
+//                 parentmap[front->right] = front;
+//                 q.push(front->right);
+//             }
+//         }
+//         return res;
+//     }
+    
+//     int burntree(Node* targetnode,map<Node*,Node*> parentmap){
+//         map<Node*,bool> visited;
+//         queue<Node*> q;
+        
+//         q.push(targetnode);
+//         visited[targetnode] = true;
+        
+//         int ans = 0;
+        
+//         while(!q.empty()){
+//             bool flag = 0;
+//             int size = q.size();
+            
+//             for(int i=0;i<size;i++){
+//                 Node* front = q.front();
+//                 q.pop();
+                
+//                 if(front->left && !visited[front->left]){
+//                     flag = 1;
+//                     q.push(front->left);
+//                     visited[front->left] = 1;
+//                 }
+
+//                 if(front->right && !visited[front->right]){
+//                     flag = 1;
+//                     q.push(front->right);
+//                     visited[front->right] = 1;
+//                 }
+
+//                 if(parentmap[front] && !visited[parentmap[front]]){
+//                     flag = 1;
+//                     q.push(parentmap[front]);
+//                     visited[parentmap[front]] = 1;
+//                 }
+//             }
+//             if(flag==1)
+//                 ans++;
+//         }
+//         return ans;
+//     }
+
+//     int minTime(Node* root, int target) 
+//     {
+//         map<Node*,Node*> parentmap;
+//         Node* targetnode = createParentMap(root, target, parentmap);
+//         int ans = burntree(targetnode, parentmap);
+
+//         return ans;
+//    }
+
+
+
+
+
+
+// Q19: Flattening a binary tree in preorder using morris traversal 
+// void flatten(Node *root)
+//     {
+//         if(root==NULL)
+//             return ;
+
+//         struct Node *curr = root;
+//         while(curr){
+//             if(curr->left){
+//                 struct Node* prev = curr->left;
+//                 while(prev->right)
+//                     prev = prev->right;
+
+//                 prev->right = curr->right;
+//                 curr->right = curr->left;
+//                 curr->left = NULL;
+//             }
+//             curr=curr->right;
+//         }
+//     }
+
+
+
+
 
 int main(){
     

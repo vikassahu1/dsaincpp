@@ -1,2 +1,0 @@
-removeDuplicates(head);
-    // print(head);

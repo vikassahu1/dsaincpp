@@ -146,6 +146,7 @@ int partition(int *arr,int s,int e){
 
     int pivot = arr[s];
 
+    // count karna h kitne element pivot element se chhote h 
     int cnt = 0;
     for (int i = s+1; i <= e; i++)
     {

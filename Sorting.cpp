@@ -70,8 +70,53 @@ void insertionSort(int arr[],int n){
     }
 }
 
+void heapify(int arr[],int n,int i){
+        int largest = i;
+        int left = 2*i+1;
+        int right = 2*i + 2;
+        
+        if(left<n && arr[largest]<arr[left])
+            largest = left;
+        
+        if(right<n && arr[largest]<arr[right])
+            largest  = right;
+        
+        if(largest!=i){
+            swap(arr[largest],arr[i]);
+            heapify(arr,n,largest);
+        }
+    }
+
+
+
+void heapSort(int arr[],int n){
+    while (n>1)
+    {
+        swap(arr[0],arr[n-1]);
+        n--;
+        heapify(arr,n,0);
+    }
+}
+
+
+
 int main(){
-    int arr[] = {3,2,1,4,6,8,12};
-    insertionSort(arr,7);
+    int arr[] = {12,6,11,2,3};
+    // insertionSort(arr,7);
+
+    int n = 5;
+
+    for(int i = n/2-1; i >=0 ; i--)
+    {
+        heapify(arr,n,i);
+    }
+
+
+    heapSort(arr,5);
+    for (int i = 0; i < 5 ; i++)
+    {
+        cout<<arr[i]<<" ";
+    }cout<<endl;
+    
     return 0;
 }
